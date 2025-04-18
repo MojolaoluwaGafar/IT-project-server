@@ -87,7 +87,7 @@ router.post("/forgot-password", async (req, res) => {
       expiresIn: "15m",
     });
 
-    const resetLink = `http://localhost:6000/reset-password/${token}`;
+    const resetLink = `${process.env.CLIENT_URL}/reset-password/${token}`;
 
     const emailHTML = `
       <h3>Password Reset</h3>
