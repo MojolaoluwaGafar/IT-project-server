@@ -273,14 +273,14 @@ router.post("/facebook", async (req, res) => {
 
     const { email, name } = fbRes.data;
 
-    // check if user exists or create
-    // generate JWT
     res.status(200).json({ message: "Login successful", token, user });
   } catch (err) {
     console.error("Facebook sign-in error:", err.message);
     res.status(500).json({ message: "Facebook login failed" });
   }
 });
+
+
 
 
 module.exports = router;

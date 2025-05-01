@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const authRoutes = require("./routes/auth.js");
 const verifyToken = require("./middleware/verifyToken")
+const contactRoutes = require("./routes/contact");
+const subscribeRoutes = require("./routes/subscribe");
 
 dotenv.config();
 const app = express();
@@ -20,6 +22,8 @@ app.use(
 
 //routes
 app.use("/api/auth", authRoutes);
+app.use("/api", contactRoutes);
+app.use("/api",subscribeRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server is running");
