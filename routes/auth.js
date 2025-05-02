@@ -280,6 +280,39 @@ router.post("/facebook", async (req, res) => {
   }
 });
 
+router.post('/apple', async (req, res) => {
+  const { identityToken } = req.body;
+
+  if (!identityToken) {
+    return res.status(400).json({ message: "Apple token is required" });
+  }
+
+  try {
+    const appleUser = jwt.decode(identityToken);
+
+    const email = appleUser.email;
+    const appleSub = appleUser.sub;
+
+    let user = await User.findOne({ appleId: appleSub });
+    if (!user) {
+      user = new User({
+        email,
+        appleId: appleSub,
+      });
+      await user.save();
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res.json({ token, user });
+  } catch (err) {
+    console.error("Apple auth failed", err);
+    res.status(500).json({ message: "Apple sign-in failed" });
+  }
+});
+
 
 
 
